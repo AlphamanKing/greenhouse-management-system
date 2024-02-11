@@ -1,0 +1,191 @@
+body {
+    background-image: url(../images/background3.jpg);
+    font-family: "Trebuchet MS", "Myriad Pro", Arial, sans-serif;
+
+}
+
+.container {
+
+    height: 600px;
+    margin-top: 5px;
+}
+
+.navbar {
+    background-color: forestgreen;
+    color: white;
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 0px;
+    font-weight: bold;
+    padding-left: 20px;
+    text-shadow: 2px solid #ddd;
+
+}
+
+.employees_form {
+    margin-top: 100px;
+    border: 1px solid #ddd;
+    padding: 20px 10px;
+    background-color: white;
+
+}
+
+.section {
+    position: relative;
+    alignment: left;
+    top: 0px;
+    margin-top: 0px;
+}
+
+.main_content {
+
+    height: auto;
+
+    opacity: 0.95;
+    min-height: 200px;
+}
+
+.left_div {
+    border-right: 1px solid #ddd;
+    height: 300px;
+
+}
+
+.section {
+    background-color: white;
+    background-image: url(../img/bgmain.png);
+}
+
+.navbar {
+    list-style: none;
+    display: block;
+    margin: 0px;
+}
+
+.navbar h4 {
+    text-transform: uppercase;
+}
+
+.navbar ul li {
+    list-style: none;
+    display: inline-block;
+    padding: 5px;
+
+}
+
+.links {
+    background-image: url(../images/background3.jpg);
+
+}
+
+.links ul {
+    list-style: none;
+    display: block;
+    height: 500px;
+    list-style: none;
+}
+
+.links ul li {
+    list-style: none;
+    display: block;
+    background-color: forestgreen;
+    padding: 8px 15px;
+}
+
+.links ul li a {
+    text-decoration: none;
+    font-weight: bold;
+    background-color: forestgreen;
+    color: white;
+    font-weight: bold;
+
+}
+
+.links ul li a:hover {
+    background-color: white;
+    color: dodgerblue;
+    font-weight: bold;
+    padding: 8px 15px;
+}
+
+.logout {
+    text-align: right;
+
+    padding-top: 2px;
+}
+
+.h3 {
+    font-weight: bolder;
+    text-align: center;
+}
+
+.header hr {
+    font-weight: bold;
+    border: 2px solid #333;
+}
+
+.help {
+    border: 1px solid white;
+    border-radius: 100%;
+    color: yellowgreen;
+    background-color: white;
+    font-weight: bold
+}
+
+.form {
+
+    margin: 20px;
+    min-height: 50px;
+}
+
+.wrapp {
+    border: 1px solid forestgreen;
+    padding-left: 20px;
+}
+
+.wrapp-ad {
+    padding-top: 20px;
+    padding-right: 20px;
+}
+
+.end hr {
+    border: 2px solid #333;
+}
+
+span {
+    background-color: forestgreen;
+    color: white;
+    padding: 5px 10px;
+    font-weight: bold;
+}
+
+.leave_history {
+    margin: 0px 5px;
+}
+
+.leave_history h3 {
+    text-align: center;
+}
+
+.leave_history hr {
+    border: 2px solid #333;
+}
+
+.leave_history table {
+    padding: 10px 20px;
+}
+
+.tabular {
+    margin-left: 10px;
+    margin-right: 20px;
+}
+
+.types hr {
+    border: 1px solid #333;
+}
+
+.types h3 {
+    text-align: center;
+}
+
+/* popup forms */

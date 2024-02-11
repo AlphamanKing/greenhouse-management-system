@@ -1,0 +1,49 @@
+/* Navigation */
+#nav {
+    clear: both;
+    margin: 0;
+    padding: -20;
+    height: 45px;
+}
+
+#nav ul {
+    float: left;
+    list-style: none;
+    background: url(nav.jpg) repeat-x;
+    width: 95%;
+    height: 45px;
+    text-transform: uppercase;
+    margin: 0 0 0 15px;
+    padding: 0;
+    display: inline;
+}
+
+#nav ul li {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+
+#nav ul li a {
+    display: block;
+    float: left;
+    width: auto;
+    margin: 0;
+    padding: 0 14px;
+    border-right: 1px solid #899D00;
+    border-left: 1px solid #A7D101;
+    font: bold 14px/45px "Century Gothic", "Trebuchet MS", Helvetica, Arial, Geneva, sans-serif;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 1px;
+    color: #fff;
+}
+
+#nav ul li a:hover,
+#nav ul li a:active {
+    background: url(nav-hover.jpg) repeat-x;
+}
+
+#nav ul li#current a {
+    background: url(nav-current.jpg) repeat-x;
+}
