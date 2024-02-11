@@ -31,7 +31,7 @@
         <p id="slogan">Slow The Flow Save Water</p>
 
         <div id="header-links">
-            <p><a href="indexx.php">Home</a> |
+            <p><a href="index.php">Home</a> |
                 <a href="#contact">Contact</a> |
                 <a href="Adminlogn.php">Admn</a></p>
         </div>

@@ -161,7 +161,7 @@ if ($_SESSION['username']) {
                     <center>
 
                         <div class="col-lg-6">
-                            <h4>Admin Greenhouse management system(DASHBOARD)</h4>
+                            <h4 style="color:orange;">Admin Greenhouse management system(DASHBOARD)</h4>
                             <div class=""><h4 style="color:orange;">Dear <?php echo $row['username'] ?>
                                     You are the Admin</h4>
                             </div>

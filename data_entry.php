@@ -123,7 +123,7 @@ if ($_SESSION['username']) {
                                             // header("Location:url: indexx.php");
                                         } else {
                                             //echo "<script>alert('unable to capture details')</script>";
-                                            echo "not saved. " .mysqli_error();
+                                            echo "not saved. " .mysqli_error($con);
                                         }
 
                                     } else {
