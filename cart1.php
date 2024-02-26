@@ -2,6 +2,17 @@
 session_start();
 
 include 'db.php';
+
+// Check if a new user is logged in
+if (isset($_SESSION['username']) && !isset($_SESSION['cart_cleared'])) {
+    // Clear cart items for the previous session/user
+    unset($_SESSION['cart']);
+    $_SESSION['cart_cleared'] = true; // Set a flag to indicate that the cart has been cleared for this session
+} elseif (!isset($_SESSION['username'])) {
+    // If the user is not logged in, unset the cart_cleared flag to ensure it's cleared for the next logged-in user
+    unset($_SESSION['cart_cleared']);
+}
+
 if (isset($_SESSION['username'])) {
 
     $check = mysqli_query($con, "SELECT * FROM customers WHERE username='" . $_SESSION['username'] . "'");
@@ -16,6 +27,7 @@ if (isset($_SESSION['username'])) {
             <!DOCTYPE html>
             <html lang="en">
             <head>
+                
                 <meta charset="utf-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <meta name="description" content="">
@@ -66,14 +78,15 @@ if (isset($_SESSION['username'])) {
                                                         class="fa fa-shopping-cart"></i> Cart</a></li>
                                         <li><a href="login.php" style=" background-color: #A6BF40"><i
                                                         class="fa fa-lock"></i> Login</a></li>
-                                        <li><a href="index.php?action=logout" style=" background-color: #A6BF40"><span
+                                        <li><a href="login.php?action=logout" style=" background-color: #A6BF40"><span
                                                         class="glyphicon glyphicon-off"></span> Logout</a></li>
-                                        <?php
+                                                        <?php
                                         if (@$_GET['action'] == "logout") {
                                             session_destroy();
-                                            header("Location: index.php");
+                                            header("Location: login.php");
                                         }
                                         ?>
+
                                     </ul>
                                 </div>
                             </div>
@@ -135,7 +148,7 @@ if (isset($_SESSION['username'])) {
                                             <p><?php echo $try->product_name; ?></p>
                                             <h2>Ksh <?php echo $try->price; ?></h2>
                                             <p><?php echo $try->description; ?></p>
-                                            <a href="cart.php?id=<?php echo $try->product_id; ?>">Order Now</a>
+                                           // <a href="cart.php?id=<?php echo $try->product_id; ?>">Order Now</a>
                                         </div>
                                         <?php
                                     }
@@ -157,6 +170,11 @@ if (isset($_SESSION['username'])) {
 
                         require 'db.php';
                         require 'item.php';
+                        // Initialize $_SESSION['cart'] if not already set
+                        if (!isset($_SESSION['cart'])) {
+                            $_SESSION['cart'] = array();
+                        }
+
                         $index = -1;
                         $item = null;
 
@@ -210,20 +228,28 @@ if (isset($_SESSION['username'])) {
                             $cart = unserialize(serialize(@$_SESSION['cart']));
                             $s = 0; // Total price initialization
 
-                            for ($i = 0; $i < count($cart); $i++) {
-                                $s += $cart[$i]->price * $cart[$i]->quantity;
-                                ?>
-                                <tr>
-                                    <td><?php echo $cart[$i]->id; ?></td>
-                                    <td><?php echo $cart[$i]->name; ?></td>
-                                    <td><?php echo $cart[$i]->price; ?></td>
-                                    <td><?php echo $cart[$i]->quantity; ?></td>
-                                    <td><?php echo $cart[$i]->price * $cart[$i]->quantity; ?></td>
-                                    <td><a href="cart.php?index=<?php echo $i; ?>"
-                                           onClick="return confirm('Are you sure?')">DELETE</a></td>
-                                </tr>
-                                <?php
+                            // Check if $cart is not null and countable
+                            if (!is_null($cart) && is_countable($cart)) {
+                                for ($i = 0; $i < count($cart); $i++) {
+                                    $s += $cart[$i]->price * $cart[$i]->quantity;
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $cart[$i]->id; ?></td>
+                                        <td><?php echo $cart[$i]->name; ?></td>
+                                        <td><?php echo $cart[$i]->price; ?></td>
+                                        <td><?php echo $cart[$i]->quantity; ?></td>
+                                        <td><?php echo $cart[$i]->price * $cart[$i]->quantity; ?></td>
+                                        <td><a href="cart.php?index=<?php echo $i; ?>"
+                                               onClick="return confirm('Are you sure?')">DELETE</a></td>
+                                    </tr>
+                                    <?php
 
+                                    // Assign values to variables for insertion into the user's table
+                                    $namep = $cart[$i]->name;
+                                    $pricep = $cart[$i]->price;
+                                    $quantityp = $cart[$i]->quantity;
+
+                                }
                             }
                             $_SESSION['total_amount'] = $s;
                             ?>
@@ -246,34 +272,39 @@ if (isset($_SESSION['username'])) {
                                 <button class="btn btn-primary" name="pay" type="submit">Enter delivery address</button>
                         </form>
 
-                            <?php
+                        <?php
+                        error_reporting(E_ALL);
+                        ini_set('display_errors', 1);
+                        
                             if (isset($_POST['pay'])) {
-                                $postal = @$_POST['postal'];
-                                $city = @$_POST['city'];
+                                $postal = mysqli_real_escape_string($con, $_POST['postal']);
+                                $city = mysqli_real_escape_string($con, $_POST['city']);
+                                $total_amount = $_SESSION['total_amount'];
 
-                                if ($postal && $city) {
-                                    if ($query = mysqli_query($con, "UPDATE transactions SET postal_code ='$postal', city ='$city' WHERE username ='" . $_SESSION['username'] . "'")) {
-
-                                        $createtable = "CREATE TABLE  $username(id INTEGER(10) AUTO_INCREMENT PRIMARY KEY,product_name varchar(20) not null, price INTEGER(10) not null,quantity varchar(10) not null);";
-
-                                        if ($query = mysqli_query($con, $createtable)) {
-                                            mysqli_query($con, "INSERT INTO $username VALUES('','$namep','$pricep','$quantityp')");
+                                if (!empty($postal) && !empty($city)) {
+                                    // Insert the new fields into the transactions table
+                                    $insert_query = "INSERT INTO transactions (username, postal_code, city, total_amount) VALUES ('$username', '$postal', '$city', '$total_amount')";
+                                    if ($query = mysqli_query($con, $insert_query)) {
+                                        // Create a new table for the user if it does not exist
+                                        $create_query = "CREATE TABLE IF NOT EXISTS $username(id INTEGER(10) AUTO_INCREMENT PRIMARY KEY, product_name varchar(20) not null, price INTEGER(10) not null, quantity varchar(10) not null)";
+                                        if ($query = mysqli_query($con, $create_query)) {
+                                    
+                                            $insert_query = "INSERT INTO $username (product_name, price, quantity) VALUES ('$namep', '$pricep', '$quantityp')";
+                                            mysqli_query($con, $insert_query);
                                             echo "<p class='alert alert-info'>Delivery between 2-5 days</p>";
                                         } else {
-                                            mysqli_query($con, "INSERT INTO $username VALUES('','$namep','$pricep','$quantityp')");
-                                            echo "<div class='alert alert-info'>Delivery between 2-5 days
-                                            <a href='#' class='close' data-dismiss = 'alert' aria-label ='close'>&times</a>
-                                            </div>";
+                                            echo "Error creating table: " . mysqli_error($con);
                                         }
                                     } else {
-                                        echo "code error";
+                                        echo "Error inserting transaction data: " . mysqli_error($con);
                                     }
                                 } else {
-                                    echo "<p class='alert alert-danger'>Fill the above fields for effient delivery</p>";
+                                    echo "<p class='alert alert-danger'>Fill the above fields for efficient delivery</p>";
                                 }
                             }
-                            ?>
-                        </div>
+                       ?>
+                      </div>
+
                         
                         <br><br>
                             <button class="btn btn-primary" onclick="window.location.href='payment.php'">Click here to proceed to the payment page</button>
@@ -310,7 +341,7 @@ if (isset($_SESSION['username'])) {
     }
 } else {
     header("Location:login.php");
+    exit;
 }
 ?>
-
 

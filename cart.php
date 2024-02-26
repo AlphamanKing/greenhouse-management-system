@@ -138,7 +138,7 @@ if (isset($_SESSION['username'])) {
                                             <p><?php echo $try->product_name; ?></p>
                                             <h2>Ksh <?php echo $try->price; ?></h2>
                                             <p><?php echo $try->description; ?></p>
-                                            <a href="cart.php?id=<?php echo $try->product_id; ?>">Order Now</a>
+                                           // <a href="cart.php?id=<?php echo $try->product_id; ?>">Order Now</a>
                                         </div>
                                         <?php
                                     }
@@ -234,6 +234,11 @@ if (isset($_SESSION['username'])) {
                                     </tr>
                                     <?php
 
+                                    // Assign values to variables for insertion into the user's table
+                                    $namep = $cart[$i]->name;
+                                    $pricep = $cart[$i]->price;
+                                    $quantityp = $cart[$i]->quantity;
+
                                 }
                             }
                             $_SESSION['total_amount'] = $s;
@@ -257,34 +262,39 @@ if (isset($_SESSION['username'])) {
                                 <button class="btn btn-primary" name="pay" type="submit">Enter delivery address</button>
                         </form>
 
-                            <?php
+                        <?php
+                        error_reporting(E_ALL);
+                        ini_set('display_errors', 1);
+                        
                             if (isset($_POST['pay'])) {
-                                $postal = @$_POST['postal'];
-                                $city = @$_POST['city'];
+                                $postal = mysqli_real_escape_string($con, $_POST['postal']);
+                                $city = mysqli_real_escape_string($con, $_POST['city']);
+                                $total_amount = $_SESSION['total_amount'];
 
-                                if ($postal && $city) {
-                                    if ($query = mysqli_query($con, "UPDATE transactions SET postal_code ='$postal', city ='$city' WHERE username ='" . $_SESSION['username'] . "'")) {
-
-                                        $createtable = "CREATE TABLE  $username(id INTEGER(10) AUTO_INCREMENT PRIMARY KEY,product_name varchar(20) not null, price INTEGER(10) not null,quantity varchar(10) not null);";
-
-                                        if ($query = mysqli_query($con, $createtable)) {
-                                            mysqli_query($con, "INSERT INTO $username VALUES('','$namep','$pricep','$quantityp')");
+                                if (!empty($postal) && !empty($city)) {
+                                    // Insert the new fields into the transactions table
+                                    $insert_query = "INSERT INTO transactions (username, postal_code, city, total_amount) VALUES ('$username', '$postal', '$city', '$total_amount')";
+                                    if ($query = mysqli_query($con, $insert_query)) {
+                                        // Create a new table for the user if it does not exist
+                                        $create_query = "CREATE TABLE IF NOT EXISTS $username(id INTEGER(10) AUTO_INCREMENT PRIMARY KEY, product_name varchar(20) not null, price INTEGER(10) not null, quantity varchar(10) not null)";
+                                        if ($query = mysqli_query($con, $create_query)) {
+                                    
+                                            $insert_query = "INSERT INTO $username (product_name, price, quantity) VALUES ('$namep', '$pricep', '$quantityp')";
+                                            mysqli_query($con, $insert_query);
                                             echo "<p class='alert alert-info'>Delivery between 2-5 days</p>";
                                         } else {
-                                            mysqli_query($con, "INSERT INTO $username VALUES('','$namep','$pricep','$quantityp')");
-                                            echo "<div class='alert alert-info'>Delivery between 2-5 days
-                                            <a href='#' class='close' data-dismiss = 'alert' aria-label ='close'>&times</a>
-                                            </div>";
+                                            echo "Error creating table: " . mysqli_error($con);
                                         }
                                     } else {
-                                        echo "code error";
+                                        echo "Error inserting transaction data: " . mysqli_error($con);
                                     }
                                 } else {
-                                    echo "<p class='alert alert-danger'>Fill the above fields for effient delivery</p>";
+                                    echo "<p class='alert alert-danger'>Fill the above fields for efficient delivery</p>";
                                 }
                             }
-                            ?>
-                        </div>
+                       ?>
+                      </div>
+
                         
                         <br><br>
                             <button class="btn btn-primary" onclick="window.location.href='payment.php'">Click here to proceed to the payment page</button>

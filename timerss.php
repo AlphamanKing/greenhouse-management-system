@@ -84,7 +84,7 @@ include 'db.php';
                         <button type="submit" class="btn btn-theme btn-info" name="Reset2">Reset2</button>
                     </div>
                    <br>
-                    <a href="admin.php">BACK</a>
+                    <a href="Admin.php">BACK</a>
                 </form>
             </div>
             <?php

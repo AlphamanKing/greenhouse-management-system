@@ -181,7 +181,7 @@ if ($_SESSION['username']) {
 
                 </div>
             </section>
-
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
             <footer id="footer"><!--Footer-->
 
 
@@ -189,7 +189,7 @@ if ($_SESSION['username']) {
                     <div class="container">
                         <div class="row">
                             <p class="pull-left">Copyright © 2018 GREENHOUSE SHOP. All rights reserved.</p>
-                            <p class="pull-right">Designed by <span><a target="_blank" href="#">kelvinmutunga</a></span>
+                            <p class="pull-right">Designed by <span><a target="_blank" href="#">BETTY MURIRA</a></span>
                             </p>
                         </div>
                     </div>

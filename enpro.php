@@ -84,7 +84,7 @@ $res=mysqli_query($conn,"SELECT * FROM op2014");
 */
 ?>
 </br>
-<a href="admin.php"> Back</a>
+<a href="Admin.php"> Back</a>
 </center>
  </fieldset>
 </body>

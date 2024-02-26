@@ -33,7 +33,7 @@
         <div id="header-links">
             <p><a href="index.php">Home</a> |
                 <a href="#contact">Contact</a> |
-                <a href="Adminlogn.php">Admn</a></p>
+                <a href="Adminlogn.php">Admin</a></p>
         </div>
     </div>
     <div class="row">
