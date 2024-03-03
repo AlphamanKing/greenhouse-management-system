@@ -1,0 +1,48 @@
+
+Title: Greenhouse Management Website Activity Diagram
+
+Actors
+
+Customer: Visits the website, browses market, learns about farming.
+Employee: Logs in, records activities, views work details.
+Admin: Manages employees, controls system settings, views reports.
+Main Activities
+
+CUSTOMER ACTIONS
+
+Visit Website:
+View Homepage (About, Contact Us)
+Explore Market:
+Browse Products (tomatoes)
+Add to Cart
+Purchase Tomatoes
+Learn about Farming:
+View Educational Page
+view contact us section (getting into contact with the greenhouse)
+
+EMPLOYEE ACTIONS
+
+Login:
+Enter Credentials
+Record Activities e.g challenges
+Input Greenhouse Data 
+View Updates
+View Employee Details:
+Profile Information
+
+ADMIN ACTIONS
+
+Login:
+Enter Credentials with Admin Privileges
+Employee Management:
+Add/Edit Employee Accounts
+View Employee Records
+Greenhouse Control:
+Monitor Sensor Data
+Add products to market
+view products
+Add updates
+View records
+control, set and update greenhouse timer
+View customers and their details
+

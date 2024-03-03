@@ -54,6 +54,8 @@ include 'db.php';
 
 
                         </form>
+                        <br><br>
+                        <a href="Admin.php" class="admin-button" style="display:block; text-align:center; font-size:large; color:brown" >BACK</a> 
                     </div>
                     <!--/sign up form-->
                     <?php
@@ -124,7 +126,8 @@ if (isset($_POST['register1'])) {
                 }
                 ?>
             </div>
-        </div>
+            </div>
+
     </div>
     </body>
     </html>

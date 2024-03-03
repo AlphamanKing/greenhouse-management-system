@@ -65,8 +65,8 @@ include 'db.php';
         </div>
     </div>
     <div>
-        <a href="Admin.php">BACK</a>
-    </div>
+<a href="Admin.php" class="admin-button" style="display:block; text-align:center; font-size:large; color:brown" >BACK</a> 
+</div>
     </body>
     </html>
 <?php

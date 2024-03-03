@@ -66,7 +66,9 @@ if ($result->num_rows > 0) {
         }
         ?>
     </table> <br><br><br>
-    <a style="display: block; text-align: center; size: 40px; color:blue;" href="Admin.php">BACK</a>
+
+      <a href="Admin.php" class="admin-button" style="display:block; text-align:center; font-size:large; color:blue" >BACK</a> 
+
     </body>
     </html>
     <?php

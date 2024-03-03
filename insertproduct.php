@@ -48,6 +48,7 @@ $_SESSION['msg']="Product Inserted Successfully !!";
     <script src="js/moment-with-locales.js"></script>
     <script src="web/js/bootstrap-datetimepicker.js"></script>
     <!--move-top-js-->
+    
 
     <script>
         $(document).ready(function () {
@@ -215,7 +216,9 @@ $_SESSION['msg']="Product Inserted Successfully !!";
 			</div>
 		</div><!--/.container-->
 	</div><!--/.wrapper-->
-
+<div>
+<a href="Admin.php" class="admin-button" style="display:block; text-align:center; font-size:large; color:brown" >BACK</a> 
+</div>
 </body>
 </html>
 <?php

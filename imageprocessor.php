@@ -1,32 +1,33 @@
 <?php
-//include('dbconnect.php');
-							
-							if (!isset($_FILES['image']['tmp_name'])) {
-							echo "";
-							}else{
-							$file=$_FILES['image']['tmp_name'];
-							$image = $_FILES["image"] ["name"];
-							$image_name= addslashes($_FILES['image']['name']);
-							$size = $_FILES["image"] ["size"];
-							$error = $_FILES["image"] ["error"];
 
-							if ($error > 0){
-										die("Error uploading file! Code $error.");
-									}else{
-										if($size > 10000000) //conditions for the file
-										{
-										die("Format is not allowed or file size is too big!");
-										}
-										
-									else
-										{
+function uploadImage($imageFile) {
+    // Check if file is uploaded
+    if (!isset($imageFile['tmp_name'])) {
+        return ""; // Return empty string if no file is uploaded
+    }
 
-move_uploaded_file($_FILES["image"]["tmp_name"],"latest/" . $_FILES["image"]["name"]);
-									$location=$_FILES["image"]["name"];
-									
-									
-									}
-										//header('location:index.php');
-									}
-							}
+    // File details
+    $file = $imageFile['tmp_name'];
+    $imageName = $imageFile['name'];
+    $size = $imageFile['size'];
+    $error = $imageFile['error'];
+
+    // Check for upload errors
+    if ($error > 0) {
+        die("Error uploading file! Code $error.");
+    } else {
+        // Check file size
+        if ($size > 10000000) { // 10MB limit
+            die("Format is not allowed or file size is too big!");
+        } else {
+            // Move the uploaded file to the "latest" directory
+            $uploadDir = "latest/";
+            move_uploaded_file($file, $uploadDir . $imageName);
+            $location = $uploadDir . $imageName;
+            return $location; // Return the file location
+        }
+    }
+}
+
 ?>
+

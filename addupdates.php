@@ -152,16 +152,15 @@
             </div>
 
         </div>
-
+        <div>
+<a href="Admin.php" class="admin-button" style="display:block; text-align:center; font-size:large; color:brown" >BACK</a> 
+</div>
         <div class="row end">
             <p class="hr">&nbsp;</p>
             <hr/>
         </div>
     </div>
-
-</div>
-<div>
-    <a href="Admin.php">BACK</a>
+    
 </div>
 </body>
 </html>
