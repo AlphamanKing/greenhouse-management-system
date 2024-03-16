@@ -256,43 +256,13 @@ if (isset($_SESSION['username'])) {
                     <div class="col-sm-3">
                         <div class="shopper-info">
                             <p>Greenhouse Market Information</p>
-                            <form method="post" action="">
+                            <form method="post" action="delivery.php">
                                 <input type="text" placeholder="Postal code" name="postal">
                                 <input type="text" placeholder="City" name="city">
                                 <button class="btn btn-primary" name="pay" type="submit">Enter delivery address</button>
                         </form>
 
-                        <?php
-                        error_reporting(E_ALL);
-                        ini_set('display_errors', 1);
                         
-                            if (isset($_POST['pay'])) {
-                                $postal = mysqli_real_escape_string($con, $_POST['postal']);
-                                $city = mysqli_real_escape_string($con, $_POST['city']);
-                                $total_amount = $_SESSION['total_amount'];
-
-                                if (!empty($postal) && !empty($city)) {
-                                    // Insert the new fields into the transactions table
-                                    $insert_query = "INSERT INTO transactions (username, postal_code, city, total_amount) VALUES ('$username', '$postal', '$city', '$total_amount')";
-                                    if ($query = mysqli_query($con, $insert_query)) {
-                                        // Create a new table for the user if it does not exist
-                                        $create_query = "CREATE TABLE IF NOT EXISTS $username(id INTEGER(10) AUTO_INCREMENT PRIMARY KEY, product_name varchar(20) not null, price INTEGER(10) not null, quantity varchar(10) not null)";
-                                        if ($query = mysqli_query($con, $create_query)) {
-                                    
-                                            $insert_query = "INSERT INTO $username (product_name, price, quantity) VALUES ('$namep', '$pricep', '$quantityp')";
-                                            mysqli_query($con, $insert_query);
-                                            echo "<p class='alert alert-info'>Delivery between 2-5 days</p>";
-                                        } else {
-                                            echo "Error creating table: " . mysqli_error($con);
-                                        }
-                                    } else {
-                                        echo "Error inserting transaction data: " . mysqli_error($con);
-                                    }
-                                } else {
-                                    echo "<p class='alert alert-danger'>Fill the above fields for efficient delivery</p>";
-                                }
-                            }
-                       ?>
                       </div>
 
                         
@@ -307,8 +277,8 @@ if (isset($_SESSION['username'])) {
                 <div class="footer-bottom">
                     <div class="container">
                         <div class="row">
-                            <p class="pull-left">Copyright Â© 2023 GREENHOUSE SHOP. All rights reserved.</p>
-                            <p class="pull-right">Designed by <span><a target="_blank" href="#">betty</a></span>
+                            <p class="pull-left">Copyright © 2023 GREENHOUSE SHOP. All rights reserved.</p>
+                            <p class="pull-right">Designed by <span><a target="_blank" href="#">BETTY MURIRA</a></span>
                             </p>
                         </div>
                     </div>
@@ -334,4 +304,3 @@ if (isset($_SESSION['username'])) {
     exit;
 }
 ?>
-

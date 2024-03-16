@@ -137,8 +137,8 @@ session_start();
             <div class="login-form"><!--login form-->
                 <h2>Login to your account</h2>
                 <form action="" method="post">
-                    <input type="text" name="username" placeholder="username"/>
-                    <input type="password" name="password" placeholder="Password"/>
+                    <input type="text" name="username" placeholder="username" autocomplete="off"/>
+                    <input type="password" name="password" placeholder="Password" autocomplete="off"/>
 
                     <button type="submit" class="btn btn-default" name="login">Login</button>
                     <?php
@@ -192,12 +192,12 @@ session_start();
             <div class="signup-form"><!--sign up form-->
                 <h2>New User Signup!</h2>
                 <form action="" method="post">
-                    <input type="text" name="name" placeholder="Name"/>
-                    <input type="text" name="username" placeholder="username"/>
-                    <input type="text" name="mobile_no" placeholder="Mobile Number"/>
-                    <input type="email" name="email" placeholder="Email Address"/>
-                    <input type="password" name="password" placeholder="Password"/>
-                    <input type="password" name="cpassword" placeholder="Confirm Password"/>
+                    <input type="text" name="name" placeholder="Name" autocomplete="off" required/>
+                    <input type="text" name="username" placeholder="username" autocomplete="off" required/>
+                    <input type="text" name="mobile_no" placeholder="Mobile Number" autocomplete="off" required/>
+                    <input type="email" name="email" placeholder="Email Address" autocomplete="off" required/>
+                    <input type="password" name="-password" placeholder="Password" autocomplete="new-password" required/>
+                    <input type="password" name="-cpassword" placeholder="Confirm Password" autocomplete="new-password" required/>
                     <button type="submit" class="btn btn-default" name="register">Signup</button>
                 </form>
             </div><!--/sign up form-->
@@ -230,6 +230,35 @@ session_start();
 
 </footer><!--/Footer-->
 
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    var form = document.querySelector(".signup-form form");
+    form.addEventListener("submit", function(event) {
+        var password = document.querySelector('input[name="-password"]').value;
+        var cpassword = document.querySelector('input[name="-cpassword"]').value;
+
+        // Log values to the console for debugging
+        console.log("Password: ", password);
+        console.log("Confirm Password: ", cpassword);
+
+        // Check if passwords match
+        if (password !== cpassword) {
+            alert("Passwords do not match.");
+            event.preventDefault(); // Prevent form submission
+            return;
+        }
+
+        // Check for minimum length and complexity
+        var passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+        if (!passwordRegex.test(password)) {
+            alert("Password must be at least 8 characters long and include uppercase, lowercase, and numbers.");
+            event.preventDefault(); // Prevent form submission
+            return;
+        }
+    });
+});
+
+</script>
 
 <script src="js/jquery.js"></script>
 <script src="js/price-range.js"></script>

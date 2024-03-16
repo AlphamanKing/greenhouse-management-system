@@ -35,8 +35,7 @@ include 'db.php';
                             <tr class="theading">
                                 <th style="background-color:darkorange;">transaction date</th>
                                 <th style="background-color:darkorange;">Customer name</th>
-                                <th style="background-color:darkorange;">confirmation_code</th>
-                                <th style="background-color:darkorange;">Mobile No</th>
+                                
                                 <th style="background-color:darkorange;">postal Code</th>
                                 <th style="background-color:darkorange;">city</th>
                                 <th style="background-color:darkorange;">Total Amount</th>
@@ -51,8 +50,7 @@ include 'db.php';
                                 <tr>
                                     <td><?php echo $result->transaction_date; ?></td>
                                     <td><?php echo $result->username; ?></td>
-                                    <td><?php echo $result->confirmation_code; ?></td>
-                                    <td><?php echo @$result->mobile_no; ?></td>
+                                    
                                     <td><?php echo $result->postal_code; ?></td>
                                     <td><?php echo $result->city; ?></td>
                                     <td><?php echo $result->total_amount; ?></td>

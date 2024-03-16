@@ -6,8 +6,8 @@ $name = @$_POST['name'];
 $username = @$_POST['username'];
 $mobile_no = @$_POST['mobile_no'];
 $email = @$_POST['email'];
-$password = @$_POST['password'];
-$cpassword = @$_POST['cpassword'];
+$password = @$_POST['-password'];
+$cpassword = @$_POST['-cpassword'];
 $encrypt = sha1($password);
 
 if (isset($_POST['register'])) {
@@ -23,4 +23,3 @@ if (isset($_POST['register'])) {
         echo "<script>alert('Fill all the fields');</script>";
     }
 }
-?>

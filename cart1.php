@@ -3,16 +3,6 @@ session_start();
 
 include 'db.php';
 
-// Check if a new user is logged in
-if (isset($_SESSION['username']) && !isset($_SESSION['cart_cleared'])) {
-    // Clear cart items for the previous session/user
-    unset($_SESSION['cart']);
-    $_SESSION['cart_cleared'] = true; // Set a flag to indicate that the cart has been cleared for this session
-} elseif (!isset($_SESSION['username'])) {
-    // If the user is not logged in, unset the cart_cleared flag to ensure it's cleared for the next logged-in user
-    unset($_SESSION['cart_cleared']);
-}
-
 if (isset($_SESSION['username'])) {
 
     $check = mysqli_query($con, "SELECT * FROM customers WHERE username='" . $_SESSION['username'] . "'");
@@ -54,7 +44,6 @@ if (isset($_SESSION['username'])) {
                 <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
 
             </head><!--/head-->
-
             <body>
             <header id="header"><!--header-->
                 <div class="header_top"><!--header_top-->
@@ -162,59 +151,11 @@ if (isset($_SESSION['username'])) {
 
             <section id="cart_items">
 
+                <!-- Your existing cart items section -->
+
                 <div class="container">
-
                     <div class="col-sm-8">
-
-                        <?php
-
-                        require 'db.php';
-                        require 'item.php';
-                        // Initialize $_SESSION['cart'] if not already set
-                        if (!isset($_SESSION['cart'])) {
-                            $_SESSION['cart'] = array();
-                        }
-
-                        $index = -1;
-                        $item = null;
-
-                        if (isset($_GET['id'])) {
-                            $result = mysqli_query($con, "SELECT * FROM try WHERE product_id='" . $_GET['id'] . "'");
-                            $try = mysqli_fetch_object($result);
-
-                            // Check if the product exists
-                            if ($try) {
-                                // Create an Item object with the retrieved details
-                                $item = new Item();
-                                $item->id = $try->product_id ;
-                                $item->name = $try->product_name;
-                                $item->price = $try->price;
-                                $item->quantity = 1;
-                            }
-
-                            $cart = unserialize(serialize($_SESSION['cart']));
-                            for ($i = 0; $i < count($cart); $i++) {
-                                if ($cart[$i]->id == $_GET['id']) {
-                                    $index = $i;
-                                    break;
-                                }
-                            }
-                            if ($index == -1) {
-                                $_SESSION['cart'][] = $item;
-                            } else {
-                                $cart[$index]->quantity++;
-                                $_SESSION['cart'] = $cart;
-                            }
-                        }
-
-                        //delete product
-                        if (isset($_GET['index'])) {
-                            $cart = unserialize(serialize($_SESSION['cart']));
-                            unset($cart[$_GET['index']]);
-                            $cart = array_values($cart);
-                            $_SESSION['cart'] = $cart;
-                        }
-                        ?>
+                        <!-- Cart items table -->
                         <table class="table">
                             <tr class="theading">
                                 <th>Id</th>
@@ -225,37 +166,34 @@ if (isset($_SESSION['username'])) {
                                 <th>Option</th>
                             </tr>
                             <?php
-                            $cart = unserialize(serialize(@$_SESSION['cart']));
+                            $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : array();
                             $s = 0; // Total price initialization
 
-                            // Check if $cart is not null and countable
-                            if (!is_null($cart) && is_countable($cart)) {
-                                for ($i = 0; $i < count($cart); $i++) {
-                                    $s += $cart[$i]->price * $cart[$i]->quantity;
-                                    ?>
-                                    <tr>
-                                        <td><?php echo $cart[$i]->id; ?></td>
-                                        <td><?php echo $cart[$i]->name; ?></td>
-                                        <td><?php echo $cart[$i]->price; ?></td>
-                                        <td><?php echo $cart[$i]->quantity; ?></td>
-                                        <td><?php echo $cart[$i]->price * $cart[$i]->quantity; ?></td>
-                                        <td><a href="cart.php?index=<?php echo $i; ?>"
-                                               onClick="return confirm('Are you sure?')">DELETE</a></td>
-                                    </tr>
-                                    <?php
-
-                                    // Assign values to variables for insertion into the user's table
-                                    $namep = $cart[$i]->name;
-                                    $pricep = $cart[$i]->price;
-                                    $quantityp = $cart[$i]->quantity;
-
-                                }
+                            foreach ($cart as $index => $cart_item) {
+                                $s += $cart_item->price * $cart_item->quantity;
+                                ?>
+                                <tr>
+                                    <td><?php echo $cart_item->id; ?></td>
+                                    <td><?php echo $cart_item->name; ?></td>
+                                    <td><?php echo $cart_item->price; ?></td>
+                                    <td>
+                                        <!-- Form to update quantity -->
+                                        <form method="post" action="">
+                                            <input type="hidden" name="index" value="<?php echo $index; ?>">
+                                            <input type="number" name="quantity" value="<?php echo $cart_item->quantity; ?>" min="1" required>
+                                            <button type="submit" name="update">Update</button>
+                                        </form>
+                                    </td>
+                                    <td><?php echo $cart_item->price * $cart_item->quantity; ?></td>
+                                    <td><a href="cart.php?index=<?php echo $index; ?>"
+                                           onClick="return confirm('Are you sure?')">DELETE</a></td>
+                                </tr>
+                                <?php
                             }
+
+                            // Update total amount in session
                             $_SESSION['total_amount'] = $s;
                             ?>
-                            <div class=""><h4 style="color:orange;">Dear <?php echo $row['name']; ?> your orders are as
-                                    follows</h4></div>
-                            <br/>
                             <tr>
                                 <th colspan="5" align="right">Total Amount to pay</th>
                                 <th align="left"><?php echo $s; ?></th>
@@ -265,60 +203,24 @@ if (isset($_SESSION['username'])) {
                     </div>
                     <div class="col-sm-3">
                         <div class="shopper-info">
-                            <p>Greenhouse Market Information</p>
+                        <p>Greenhouse Market Information</p>
                             <form method="post" action="">
                                 <input type="text" placeholder="Postal code" name="postal">
                                 <input type="text" placeholder="City" name="city">
                                 <button class="btn btn-primary" name="pay" type="submit">Enter delivery address</button>
-                        </form>
-
-                        <?php
-                        error_reporting(E_ALL);
-                        ini_set('display_errors', 1);
-                        
-                            if (isset($_POST['pay'])) {
-                                $postal = mysqli_real_escape_string($con, $_POST['postal']);
-                                $city = mysqli_real_escape_string($con, $_POST['city']);
-                                $total_amount = $_SESSION['total_amount'];
-
-                                if (!empty($postal) && !empty($city)) {
-                                    // Insert the new fields into the transactions table
-                                    $insert_query = "INSERT INTO transactions (username, postal_code, city, total_amount) VALUES ('$username', '$postal', '$city', '$total_amount')";
-                                    if ($query = mysqli_query($con, $insert_query)) {
-                                        // Create a new table for the user if it does not exist
-                                        $create_query = "CREATE TABLE IF NOT EXISTS $username(id INTEGER(10) AUTO_INCREMENT PRIMARY KEY, product_name varchar(20) not null, price INTEGER(10) not null, quantity varchar(10) not null)";
-                                        if ($query = mysqli_query($con, $create_query)) {
-                                    
-                                            $insert_query = "INSERT INTO $username (product_name, price, quantity) VALUES ('$namep', '$pricep', '$quantityp')";
-                                            mysqli_query($con, $insert_query);
-                                            echo "<p class='alert alert-info'>Delivery between 2-5 days</p>";
-                                        } else {
-                                            echo "Error creating table: " . mysqli_error($con);
-                                        }
-                                    } else {
-                                        echo "Error inserting transaction data: " . mysqli_error($con);
-                                    }
-                                } else {
-                                    echo "<p class='alert alert-danger'>Fill the above fields for efficient delivery</p>";
-                                }
-                            }
-                       ?>
-                      </div>
-
-                        
+                        </div>
                         <br><br>
-                            <button class="btn btn-primary" onclick="window.location.href='payment.php'">Click here to proceed to the payment page</button>
+                        <button class="btn btn-primary" onclick="window.location.href='payment.php'">Click here to proceed to the payment page</button>
                     </div>
                 </div>
             </section> <!--/#cart_items-->
-            
             <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
             <footer id="footer"><!--Footer-->
                 <div class="footer-bottom">
                     <div class="container">
                         <div class="row">
-                            <p class="pull-left">Copyright Â© 2023 GREENHOUSE SHOP. All rights reserved.</p>
-                            <p class="pull-right">Designed by <span><a target="_blank" href="#">betty</a></span>
+                            <p class="pull-left">Copyright © 2023 GREENHOUSE SHOP. All rights reserved.</p>
+                            <p class="pull-right">Designed by <span><a target="_blank" href="#">BETTY MURIRA</a></span>
                             </p>
                         </div>
                     </div>
@@ -336,6 +238,7 @@ if (isset($_SESSION['username'])) {
             </script>
             </body>
             </html>
+
             <?php
         }
     }
@@ -343,5 +246,16 @@ if (isset($_SESSION['username'])) {
     header("Location:login.php");
     exit;
 }
-?>
 
+// Handle quantity update and item deletion
+if (isset($_POST['update'])) {
+    $index = $_POST['index'];
+    $quantity = $_POST['quantity'];
+    if ($quantity > 0) {
+        $_SESSION['cart'][$index]->quantity = $quantity;
+    } else {
+        // Remove item from cart if quantity is 0 or less
+        unset($_SESSION['cart'][$index]);
+    }
+}
+?>

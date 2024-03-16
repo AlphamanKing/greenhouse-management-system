@@ -1,6 +1,10 @@
 <?php
 session_start();
 
+if (isset($_SESSION['success_message'])) {
+    echo $_SESSION['success_message']; // Echo the message
+    unset($_SESSION['success_message']); // Clear the message from the session
+}
 // Check if the session variable is set
 if(isset($_SESSION['total_amount'])) {
     $totalAmount = $_SESSION['total_amount'];

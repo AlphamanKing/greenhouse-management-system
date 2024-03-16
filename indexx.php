@@ -377,7 +377,7 @@
             <span><h2 style="font-size: 28px"><a name="contact"> Contact Us </a></h2></span>
             <h1 style="font-size: 24px">Head Office</h1>
             <div class="one_half">
-                <h3 style="font-size: 25px">South Eastern Kenya University.<br/> kwa vonza, Kitui<br/>Kenya</h3>
+                <h3 style="font-size: 25px">Murang'a University of Technology.<br/> Kiharu, Murang'a Kenya<br/>Kenya</h3>
             </div>
             <div class="one_half_last">
                 <h3 style="font-size: 25px"> Telephone: +254-712-660-519<br/> Fax: 905-892-3790</h3>
@@ -415,8 +415,8 @@
         </div>
         <div id="footer-bottom">
             <div class="row">
-                <p class="pull-left">Copyright © 2018 GREENHOUSE MANAGEMENT SYSTEM. All rights reserved.</p>
-                <p class="pull-right">Designed by <span><a target="_blank" href="#">kelvinmutunga</a></span></p>
+                <p class="pull-left">Copyright © 2023 GREENHOUSE MANAGEMENT SYSTEM. All rights reserved.</p>
+                <p class="pull-right">Designed by <span><a target="_blank" href="#">BETTY MURIRA</a></span></p>
             </div>
         </div>
     </div>
