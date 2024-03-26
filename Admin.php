@@ -4,7 +4,7 @@ session_start();
 include 'db.php';
 if ($_SESSION['username']) {
 
-    $check = mysqli_query($con,"SELECT * FROM employee WHERE username='" . $_SESSION['username'] . "'");
+    $check = mysqli_query($con,"SELECT * FROM admin WHERE username='" . $_SESSION['username'] . "'");
     $rows = mysqli_num_rows($check);
 
     if ($rows != 0) {

@@ -415,7 +415,7 @@
         </div>
         <div id="footer-bottom">
             <div class="row">
-                <p class="pull-left">Copyright © 2023 GREENHOUSE MANAGEMENT SYSTEM. All rights reserved.</p>
+                <p class="pull-left">Copyright © 2024 GREENHOUSE MANAGEMENT SYSTEM. All rights reserved.</p>
                 <p class="pull-right">Designed by <span><a target="_blank" href="#">BETTY MURIRA</a></span></p>
             </div>
         </div>

@@ -278,20 +278,16 @@
                     <h2 class="title text-center">Features Items</h2>
 
                 </div><!--features_items-->
-
-                <div class="category-tab"><!--category-tab-->
-                    <div class="col-sm-12">
-
-                        <ul class="nav nav-tabs">
-
-                            <li><a href="index.php?action=Grade1">Grade1</a></li>
-                            <li class="active"><a href="index.php?action=Grade2"> Grade2</a></li>
-                            <li><a href="index.php?action=Grade3">Grade3</a></li>
-                            <li><a href="index.php?action=Grade4" >Grade4</a></li>
-
-                        </ul>
-                    </div>
-                    <div class="tab-content">
+        <div class="category-tab"><!--category-tab-->
+             <div class="col-sm-12">
+                 <ul class="nav nav-tabs">
+                   <li class="<?php echo ($_GET['action'] == 'Grade1' || $_GET['action'] == '') ? 'active' : ''; ?>"><a href="index.php?action=Grade1">Grade1</a></li>
+                   <li class="<?php echo ($_GET['action'] == 'Grade2') ? 'active' : ''; ?>"><a href="index.php?action=Grade2">Grade2</a></li>
+                   <li class="<?php echo ($_GET['action'] == 'Grade3') ? 'active' : ''; ?>"><a href="index.php?action=Grade3">Grade3</a></li>
+                   <li class="<?php echo ($_GET['action'] == 'Grade4') ? 'active' : ''; ?>"><a href="index.php?action=Grade4">Grade4</a></li>
+                 </ul>
+               </div>
+                     <div class="tab-content">
 
                         <div class="tab-pane fade active in" id="tshirt">
 
@@ -344,13 +340,13 @@
                     <span><h2 style="font-size: 28px"><a name="contact"> Contact Us </a></h2></span>
                     <h1 style="font-size: 24px">Head Office</h1>
                     <div class="one_half">
-                        <h3 style="font-size: 25px">South Eastern Kenya University.<br/> kwa vonza, Kitui<br/>Kenya</h3>
+                        <h3 style="font-size: 25px">Murang'a University of Technology.<br/> Kiharu, Murang'a<br/>Kenya</h3>
                     </div>
                     <div class="one_half_last">
-                        <h3 style="font-size: 25px"> Telephone: +254-712-660-519<br/> Fax: 905-892-3790</h3>
+                        <h3 style="font-size: 25px"> Telephone: +254 771 463515<br/> Fax: 905-892-3790</h3>
                     </div>
                 </center>
-                <img src="kevo/Capture.PNG" width="100%" height="500">
+                <img src="kevo/nimo.png" width="100%" height="500">
                 <hr/>
                 <center>
                     <h2 style="font-size: 24px">Visit Us</h2>
@@ -377,8 +373,8 @@
     <div class="footer-bottom">
         <div class="container">
             <div class="row">
-                <p class="pull-left">Copyright © 2018 GREENHOUSE SHOP. All rights reserved.</p>
-                <p class="pull-right">Designed by <span><a target="_blank" href="#">kelvinmutunga</a></span></p>
+                <p class="pull-left">Copyright © 2024 | GREENHOUSE SHOP. All rights reserved.</p>
+                <p class="pull-right">Designed by Engineer<span><a target="_blank" href="#">NIMO B</a></span></p>
             </div>
         </div>
     </div>
