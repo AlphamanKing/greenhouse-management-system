@@ -7,13 +7,13 @@ include 'cart.php';
                         ini_set('display_errors', 1);
                         
                             if (isset($_POST['pay'])) {
-                                $postal = mysqli_real_escape_string($con, $_POST['postal']);
+                                $postal = mysqli_real_escape_string($con, $_POST['phone_number']);
                                 $city = mysqli_real_escape_string($con, $_POST['city']);
                                 $total_amount = $_SESSION['total_amount'];
 
                                 if (!empty($postal) && !empty($city)) {
                                     // Insert the new fields into the transactions table
-                                    $insert_query = "INSERT INTO transactions (username, postal_code, city, total_amount) VALUES ('$username', '$postal', '$city', '$total_amount')";
+                                    $insert_query = "INSERT INTO transactions (username, phone_number, city, total_amount) VALUES ('$username', '$postal', '$city', '$total_amount')";
                                     if ($query = mysqli_query($con, $insert_query)) {
                                         // Create a new table for the user if it does not exist
                                         $create_query = "CREATE TABLE IF NOT EXISTS $username(id INTEGER(10) AUTO_INCREMENT PRIMARY KEY, product_name varchar(20) not null, price INTEGER(10) not null, quantity varchar(10) not null)";

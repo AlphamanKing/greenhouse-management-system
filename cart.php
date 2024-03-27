@@ -150,116 +150,120 @@ if (isset($_SESSION['username'])) {
                 </div><!--/header-bottom-->
             </header><!--/header-->
 
-            <section id="cart_items">
+            <?php
+session_start();
+require 'db.php';
+require 'item.php';
 
-                <div class="container">
+// Initialize cart if not set
+if (!isset($_SESSION['cart'])) {
+    $_SESSION['cart'] = array();
+}
 
-                    <div class="col-sm-8">
+// Add product to cart
+if (isset($_GET['id'])) {
+    $result = mysqli_query($con, "SELECT * FROM try WHERE product_id='" . $_GET['id'] . "'");
+    $product = mysqli_fetch_object($result);
+    if ($product) {
+        $item = new Item();
+        $item->id = $product->product_id;
+        $item->name = $product->product_name;
+        $item->price = $product->price;
+        $item->quantity = 1;
 
-                        <?php
+        // Check if product is already in cart
+        $index = -1;
+        $cart = unserialize(serialize($_SESSION['cart']));
+        for ($i = 0; $i < count($cart); $i++) {
+            if ($cart[$i]->id == $_GET['id']) {
+                $index = $i;
+                break;
+            }
+        }
+        if ($index == -1) {
+            $_SESSION['cart'][] = $item;
+        } else {
+            $cart[$index]->quantity++;
+            $_SESSION['cart'] = $cart;
+        }
+    }
+}
 
-                        require 'db.php';
-                        require 'item.php';
-                        // Initialize $_SESSION['cart'] if not already set
-                        if (!isset($_SESSION['cart'])) {
-                            $_SESSION['cart'] = array();
-                        }
+// Update product quantity in cart
+if (isset($_POST['update'])) {
+    $index = $_POST['index'];
+    $quantity = $_POST['quantity'];
 
-                        $index = -1;
-                        $item = null;
+    if ($quantity > 0) {
+        $cart = unserialize(serialize($_SESSION['cart']));
+        $cart[$index]->quantity = $quantity;
+        $_SESSION['cart'] = $cart;
+    }
+}
 
-                        if (isset($_GET['id'])) {
-                            $result = mysqli_query($con, "SELECT * FROM try WHERE product_id='" . $_GET['id'] . "'");
-                            $try = mysqli_fetch_object($result);
+// Remove product from cart
+if (isset($_GET['delete'])) {
+    $cart = unserialize(serialize($_SESSION['cart']));
+    unset($cart[$_GET['delete']]);
+    $cart = array_values($cart);
+    $_SESSION['cart'] = $cart;
+}
 
-                            // Check if the product exists
-                            if ($try) {
-                                // Create an Item object with the retrieved details
-                                $item = new Item();
-                                $item->id = $try->product_id ;
-                                $item->name = $try->product_name;
-                                $item->price = $try->price;
-                                $item->quantity = 1;
-                            }
+?>
 
-                            $cart = unserialize(serialize($_SESSION['cart']));
-                            for ($i = 0; $i < count($cart); $i++) {
-                                if ($cart[$i]->id == $_GET['id']) {
-                                    $index = $i;
-                                    break;
-                                }
-                            }
-                            if ($index == -1) {
-                                $_SESSION['cart'][] = $item;
-                            } else {
-                                $cart[$index]->quantity++;
-                                $_SESSION['cart'] = $cart;
-                            }
-                        }
+<div class="container">
+    <div class="col-sm-8">
+        <table class="table">
+            <tr class="theading">
+                <th>Id</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Sub total</th>
+                <th>Option</th>
+            </tr>
+            <?php
+            $cart = unserialize(serialize($_SESSION['cart']));
+            $s = 0;
+            for ($i = 0; $i < count($cart); $i++) {
+                $s += $cart[$i]->price * $cart[$i]->quantity;
+                ?>
+                <tr>
+                    <td><?php echo $cart[$i]->id; ?></td>
+                    <td><?php echo $cart[$i]->name; ?></td>
+                    <td><?php echo $cart[$i]->price; ?></td>
+                    <td>
+                        <form action="cart.php" method="post">
+                            <input type="hidden" name="index" value="<?php echo $i; ?>">
+                            <input type="number" name="quantity" value="<?php echo $cart[$i]->quantity; ?>" min="1">
+                            <input type="submit" name="update" value="Update">
+                        </form>
+                    </td>
+                    <td><?php echo $cart[$i]->price * $cart[$i]->quantity; ?></td>
+                    <td>
+                        <a href="cart.php?delete=<?php echo $i; ?>" onClick="return confirm('Are you sure?')">DELETE</a>
+                    </td>
+                </tr>
+                <?php
+            }
+            $_SESSION['total_amount'] = $s;
+            ?>
+            <tr>
+                <th colspan="5" align="right">Total Amount to pay</th>
+                <th align="left"><?php echo $s; ?></th>
+            </tr>
+        </table>
+        <a class="btn btn-primary" href="shopping.php">Continue Shopping</a>
+    </div>
 
-                        //delete product
-                        if (isset($_GET['index'])) {
-                            $cart = unserialize(serialize($_SESSION['cart']));
-                            unset($cart[$_GET['index']]);
-                            $cart = array_values($cart);
-                            $_SESSION['cart'] = $cart;
-                        }
-                        ?>
-                        <table class="table">
-                            <tr class="theading">
-                                <th>Id</th>
-                                <th>Name</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
-                                <th>Sub total</th>
-                                <th>Option</th>
-                            </tr>
-                            <?php
-                            $cart = unserialize(serialize(@$_SESSION['cart']));
-                            $s = 0; // Total price initialization
 
-                            // Check if $cart is not null and countable
-                            if (!is_null($cart) && is_countable($cart)) {
-                                for ($i = 0; $i < count($cart); $i++) {
-                                    $s += $cart[$i]->price * $cart[$i]->quantity;
-                                    ?>
-                                    <tr>
-                                        <td><?php echo $cart[$i]->id; ?></td>
-                                        <td><?php echo $cart[$i]->name; ?></td>
-                                        <td><?php echo $cart[$i]->price; ?></td>
-                                        <td><?php echo $cart[$i]->quantity; ?></td>
-                                        <td><?php echo $cart[$i]->price * $cart[$i]->quantity; ?></td>
-                                        <td><a href="cart.php?index=<?php echo $i; ?>"
-                                               onClick="return confirm('Are you sure?')">DELETE</a></td>
-                                    </tr>
-                                    <?php
-
-                                    // Assign values to variables for insertion into the user's table
-                                    $namep = $cart[$i]->name;
-                                    $pricep = $cart[$i]->price;
-                                    $quantityp = $cart[$i]->quantity;
-
-                                }
-                            }
-                            $_SESSION['total_amount'] = $s;
-                            ?>
-                            <div class=""><h4 style="color:orange;">Dear <?php echo $row['name']; ?> your orders are as
-                                    follows</h4></div>
-                            <br/>
-                            <tr>
-                                <th colspan="5" align="right">Total Amount to pay</th>
-                                <th align="left"><?php echo $s; ?></th>
-                            </tr>
-                        </table>
-                        <a class="btn btn-primary" href="shopping.php">Continue Shopping</a>
-                    </div>
                     <div class="col-sm-3">
                         <div class="shopper-info">
                             <p>Greenhouse Market Information</p>
                             <form method="post" action="delivery.php">
-                                <input type="text" placeholder="Postal code" name="postal">
+                                <input type="text" placeholder="Phone Number" name="phone_number">
                                 <input type="text" placeholder="City" name="city">
-                                <button class="btn btn-primary" name="pay" type="submit">Enter delivery address</button>
+                                <button class="btn btn-primary" name="pay" type="submit">Enter delivery info</button>
                         </form>
 
                         

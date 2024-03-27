@@ -152,7 +152,7 @@ if ($_SESSION['username']) {
                                 <tr class="theading">
                                     <th style="background-color:darkorange;">Date of purchase</th>
                                     <th style="background-color:darkorange;">City</th>
-                                    <th style="background-color:darkorange;">Postal code</th>
+                                    <th style="background-color:darkorange;">Phone Number</th>
                                     <th style="background-color:darkorange;">Total amount paid</th>
                                 </tr>
                                 <?php
@@ -164,7 +164,7 @@ if ($_SESSION['username']) {
                                     <tr>
                                         <td><?php echo $result->transaction_date; ?></td>
                                         <td><?php echo $result->city; ?></td>
-                                        <td><?php echo $result->postal_code; ?></td>
+                                        <td><?php echo $result->phone_number; ?></td>
                                         <td><?php echo $result->total_amount; ?></td>
                                     </tr>
                                 <?php } ?>
