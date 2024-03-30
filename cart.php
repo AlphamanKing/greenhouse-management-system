@@ -271,7 +271,14 @@ if (isset($_GET['delete'])) {
 
                         
                         <br><br>
-                            <button class="btn btn-primary" onclick="window.location.href='payment.php'">Click here to proceed to the payment page</button>
+                        <form action="https://secret-plains-70423-283428ea4e96.herokuapp.com/index.php" method="post">
+                           <input type="hidden" name="amount" value="<?php echo $s; ?>">
+                           <input type="hidden" name="items" value="<?php echo htmlspecialchars(json_encode($cart)); ?>">
+                           <input type="hidden" name="username" value="<?php echo $username; ?>">
+
+                           <input type="submit" class="btn btn-primary" name="submit" value="Proceed to Payment">
+                        </form>
+                        
                     </div>
                 </div>
             </section> <!--/#cart_items-->
