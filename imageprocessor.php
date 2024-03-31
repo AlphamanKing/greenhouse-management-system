@@ -24,10 +24,9 @@ function uploadImage($imageFile) {
             $uploadDir = "latest/";
             move_uploaded_file($file, $uploadDir . $imageName);
             $location = $uploadDir . $imageName;
-            return $location; // Return the file location
+            return $imageName; 
         }
     }
 }
 
-?>
 

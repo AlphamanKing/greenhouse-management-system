@@ -3,6 +3,7 @@
 
 include('db.php');
 
+include("imageprocessor.php");
 	
 if(isset($_POST['submit']))
 {
@@ -12,13 +13,13 @@ if(isset($_POST['submit']))
     $description = @$_POST['description'];
     $price = @$_POST['price'];
     $quantity = @$_POST['quantity'];
-    //$productimage1=$_FILES["productimage1"]["name"];
-    include("imageprocessor.php");
+    $image_name = uploadImage($_FILES['image']);
+    
 $sql=mysqli_query($con,"insert into try(category,product_name,description,price,quantity,productImage1)
-              values('$category','$product_name','$description','$price','$quantity','$location')");
+              values('$category','$product_name','$description','$price','$quantity','$image_name')");
 $_SESSION['msg']="Product Inserted Successfully !!";
 
-}
+} 
 
 
 ?>

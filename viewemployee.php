@@ -26,6 +26,29 @@ function reloadPage() {
 <head>
     <title>Enquire</title>
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+        @media print {
+    /* Hide everything by default when printing */
+    body * {
+        visibility: hidden;
+    }
+    /* Then display the print container and its children */
+    .print-container, .print-container * {
+        visibility: visible;
+    }
+    /* Position the print container at the top of the page */
+    .print-container {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+}
+    </style>
+    <script>
+        function printEmployeeDetails() {
+            window.print();
+        }
+    </script>
 </head>
 
 <body>
@@ -40,16 +63,19 @@ function reloadPage() {
                 <input type="submit" value="Search" name="btn" class="btn btn-sm btn-primary">
             </form>
             </br>
-            <table border="1" width="100%" align="center" class="goinghigh">
-                <tr bgcolor="green">
-                    <th>employee_Id</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Mobile No</th>
-                    <th>Email</th>
-                    <th>work Description</th>
-                    <th>salary</th>
-                    <th>Action</th>
+            <div>
+            <button onclick="printEmployeeDetails()" class="btn btn-primary">Print Employee Details</button>
+            </div> <br> 
+            <table border="1" width="100%" align="center" class="goinghigh print-container">
+                <tr bgcolor="wheat" style="color:brown; size:50px">
+                    <th>EMPLOYEE ID</th>
+                    <th>FIRST NAME</th>
+                    <th>LAST NAME</th>
+                    <th>MOBILE NO</th>
+                    <th>EMAIL</th>
+                    <th>ROLE</th>
+                    <th>SALARY</th>
+                    <th>ACTION</th>
                 </tr>
                 <?php
                 while ($row = $result->fetch_assoc()) {
@@ -75,19 +101,6 @@ function reloadPage() {
             </table>
         </div>
         <center>
-            <?php
-            /*include "connection.php";
-            $res=mysqli_query($conn,"SELECT * FROM op2014");
-               $num=mysqli_num_rows($res);
-               $total=$num/4;
-               $total=ceil($total);
-                  for ($b=1; $b<=$total;$b++)
-                  {
-
-                     ?><a href="?page=<?php echo $b;?>" style="text-decoration:none"><?php echo $b. " "; ?></a><?php
-                  }
-            */
-            ?>
             </br>
             <a href="Admin.php"> BACK</a>
         </center>
