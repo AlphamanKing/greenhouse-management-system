@@ -271,7 +271,7 @@ if (isset($_GET['delete'])) {
 
                         
                         <br><br>
-                        <form action="https://secret-plains-70423-283428ea4e96.herokuapp.com/index.php" method="post">
+                        <form action="mpesa-API/index.php" method="post">
                            <input type="hidden" name="amount" value="<?php echo $s; ?>">
                            <input type="hidden" name="items" value="<?php echo htmlspecialchars(json_encode($cart)); ?>">
                            <input type="hidden" name="username" value="<?php echo $username; ?>">
