@@ -16,7 +16,7 @@ $config = array(
     "username"         => "apitest",
     "TransactionType"  => "CustomerPayBillOnline",
     "passkey"          => "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919", //Enter your passkey here
-    "CallBackURL"      => "https://0116-102-217-157-218.ngrok-free.app/callback.php", //Use Ngrok for localhost
+    "CallBackURL"      => "https://446b-102-217-157-218.ngrok-free.app/callback.php", //Use Ngrok for localhost
     "AccountReference" => "CompanyXLTD",
     "TransactionDesc"  => "Payment of X" ,
 );

@@ -1,117 +1,114 @@
 <?php
   session_start(); 
-
-  include('express-stk.php');
+//  include('express-stk.php');
 ?>
 <!DOCTYPE html>
 <html>
     <head>
         <style>
-            @import url('https://fonts.googleapis.com/css?family=Lato:400,100,300,700,900');
-            @import url('https://fonts.googleapis.com/css?family=Source+Code+Pro:400,200,300,500,600,700,900');
-            /* CSS styles here */
+            @import url('https://fonts.googleapis.com/css?family=Roboto:400,100,300,700,900');
+            @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,200,300,500,600,700,900');
+            
+            .container {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              height: 100vh;
+              flex-direction: column;
+              background-color: #f4f4f4;
+            }
 
-.container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  flex-direction: column;
-}
+            * {
+              box-sizing: border-box;
+            }
 
-* {
-  box-sizing: border-box;
-}
+            html {
+              font-family: 'Roboto', sans-serif;
+              color: #333;
+              background-color: #e9ebee;
+            }
 
-html {
-  background-color: #171A3D;
-  font-family: 'Lato', sans-serif;
-}
+            .price h1 {
+              font-weight: 700;
+              color: #5b9bd5;
+              letter-spacing: 1px; 
+              text-align: center;
+            }
 
-.price h1 {
-  font-weight: 300;
-  color: #18C2C0;
-  letter-spacing: 2px; 
-  text-align: center;
-}
+            .card {
+              margin-top: 30px;
+              margin-bottom: 30px;
+              width: 520px;
+              background-color: #fff;
+              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+              border-radius: 8px;
+            }
 
-.card {
-  margin-top: 30px;
-  margin-bottom: 30px;
-  width: 520px;
-}
+            .card .row {
+              width: 100%;
+              padding: 1rem;
+              border-bottom: 1px solid #ccc;
+            }
 
-.card .row {
-  width: 100%;
-  padding: 1rem 0;
-  border-bottom: 1.2px solid #292C58;
-}
+            .card .row.number {
+              background-color: #f7f7f7;
+            }
 
-.card .row.number {
-  background-color: #242852;
-}
+            .info label {
+              display: inline-block;
+              color: #666;
+              width: 40%;
+            }
 
-.cardholder .info, .number .info {
-  position: relative;
-  margin-left: 40px;
-}
+            .info input {
+              display: inline-block;
+              width: 55%;
+              background-color: #f7f7f7;
+              font-family: 'Open Sans';
+              border: 1px solid #ddd;
+              outline: none;
+              margin-left: 1%;
+              color: #333;
+              padding: 0.5rem;
+              border-radius: 4px;
+            }
 
-.cardholder .info label, .number .info label {
-  display: inline-block;
-  letter-spacing: 0.5px;
-  color: #8F92C3;
-  width: 40%;
-}
+            .info input::placeholder {
+              font-family: 'Open Sans';
+              color: #999;
+            }
 
-.cardholder .info input, .number .info input {
-  display: inline-block;
-  width: 55%;
-  background-color: transparent;
-  font-family: 'Source Code Pro';
-  border: none;
-  outline: none;
-  margin-left: 1%;
-  color: white;
-}
+            #cardnumber, #cardnumber::placeholder {
+              letter-spacing: 1px;
+              font-size: 14px;
+            }
 
-.cardholder .info input::placeholder, .number .info input::placeholder {
-  font-family: 'Source Code Pro';
-  color: #444880;
-}
+            .button button {
+              font-size: 1rem;
+              font-weight: 500;
+              width: 520px;
+              background-color: #5b9bd5;
+              border: none;
+              color: #fff;
+              padding: 15px;
+              border-radius: 8px;
+              outline: none;
+              cursor: pointer;
+              transition: background-color 0.2s ease-in-out;
+            }
 
-#cardnumber, #cardnumber::placeholder {
-  letter-spacing: 2px;
-  font-size: 16px;
-}
+            .button button:hover {
+              background-color: #4a8bc2;
+            }
 
-.button button {
-  font-size: 1.2rem;
-  font-weight: 400;
-  letter-spacing: 1px;
-  width: 520px;
-  background-color: #18C2C0;
-  border: none;
-  color: #fff;
-  padding: 18px;
-  border-radius: 5px;
-  outline: none;
-  cursor: pointer;
-  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
+            .button button:active {
+              background-color: #3a7bae;
+            }
 
-.button button:hover {
-  background-color: #15aeac;
-}
-
-.button button:active {
-  background-color: #139b99;
-}
-
-.button button i {
-  font-size: 1.2rem;
-  margin-right: 5px;
-}
-
+            .button button i {
+              font-size: 1rem;
+              margin-right: 5px;
+            }
         </style>
     </head>
 <body>
@@ -124,23 +121,22 @@ html {
                 <div class="card">
                     <div class="row">
                         <img src="mpesa.png" style="width:30%;margin: 0 35%;">
-                        <p style="color:#8F92C3;line-height:1.7;">3. After Receiving the MPESA confirmation message, <br> 4. Key in the <strong>Transaction Code </strong> in the below box then,<br> 5. Press 'Confirm Payment' to finish making your order.</p>
+                        <p style="color:#666;line-height:1.7;">3. After Receiving the MPESA confirmation message, <br> 4. Key in the <strong>Transaction Code </strong> in the below box then,<br> 5. Press 'Confirm Payment' to finish making your order.</p>
                 
                         <?php if (isset($errmsg) && $errmsg != ''): ?>
-                            <p style="background: #cc2a24;padding: .8rem;color: #ffffff;"><?php echo $errmsg; ?></p>
+                            <p style="background: #e74c3c;padding: .8rem;color: #ffffff;"><?php echo $errmsg; ?></p>
                         <?php endif; ?>
                     </div>
                     <div class="row number">
-                            <div class="info">
-                                <label for="cardnumber">TRANSACTION CODE</label>
-                                <input id="cardnumber" type="text" name="transactionID" maxlength="10" placeholder="SCS2EZBS9A" required/>
-                            </div>
+                        <div class="info">
+                            <label for="cardnumber">TRANSACTION CODE</label>
+                            <input id="cardnumber" type="text" name="transactionID" maxlength="10" placeholder="SCS2EZBS9A" required/>
                         </div>
-                </div> <!-- Missing closing tag for .card -->
-            </div> <!-- Missing closing tag for .card__container -->
+                    </div>
+                </div>
+            </div>
             <div class="button">
                 <button type="submit"><i class="ion-locked"></i> Confirm Payment</button> <br> <br>
-                <!-- Cancel Transaction Button -->
                 <button type="button" onclick="cancelTransaction()"><i class="ion-locked"></i> Cancel Transaction</button>
             </div>
         </form>
@@ -163,5 +159,4 @@ function cancelTransaction() {
 </script>
 
 </body>
-
 </html>

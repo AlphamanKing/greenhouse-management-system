@@ -383,7 +383,7 @@
                 <h3 style="font-size: 25px"> Telephone: +254-712-660-519<br/> Fax: 905-892-3790</h3>
             </div>
             <p>&nbsp;</p>
-            <img src="kevo/Capture.PNG" width="100%" height="500">
+            <img src="kevo/nimo.png" width="100%" height="500">
             <hr/>
             <h2 style="font-size: 24px">Visit Us</h2>
             <p style="font-size: 20px">We are always delighted to have customers and guests visit our Greenhouse
